@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 30px;
+  border: 1px solid #eee;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background-color: #eee;
+}
+
+.icons-cell {
+  cursor: auto;
+}
+
+.pencil-icon {
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #565347;
+}
+
+.pencil-icon:hover,
+.trash-icon:hover {
+  color: #333;
+}
+
+.trash-icon {
+  cursor: pointer;
+  font-size: 20px;
+  color: #4F4E4A;
+}
+
+.modal-footer-mine {
+  border-top: none !important;
+}
+
+.modal-body-mine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.info-item {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.address-details div span:first-child {
+  font-weight: 500;
+  color: #333;
+}
+
+.edit-btns {
+  display: flex;
+  justify-content: end;
+
+}
+
+.info-item input {
+  /* padding: 0px 10px; */
+  border: none;
+  border-bottom: 1px solid darkgray;
+  /* border-left: 1px solid darkgray; */
+  outline: none;
+}
+
+.user-edit-box {
+  padding: 30px 20px;
+}
+.address-details-edit div{
+  margin-bottom: 10px;
+}
+.info-item-edit{
+  margin-bottom: 30px;
+}
+.user-detail-submit-button{
+  margin-left: 15px;
+  width: 130px;
+}
+.goback-btn {
+  width: 130px;
+}
