@@ -3,6 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+.ant-message div div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .container {
   margin: 30px;

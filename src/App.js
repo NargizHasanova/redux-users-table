@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import Table from "./components/Table";
-import Loader from "./Loader/Loader";
+import { useEffect } from "react";
+import UsersTable from "./components/UsersTable";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsersData } from "./redux/userSlice";
-
+import { fetchUsersData, sortId } from "./redux/userSlice";
+import Loader from './components/Loader/Loader';
 import { Route, Routes } from 'react-router';
 import UserDetail from "./components/UserDetail";
 // import { useGetUsersQuery } from "./redux/api";
@@ -14,16 +13,20 @@ function App() {
   // if (isLoading) return <Loader />
   const dispatch = useDispatch()
   const users = useSelector(state => state.users)
-
+  console.log(users.idFilterDir);
   useEffect(() => {
-    dispatch(fetchUsersData())
+    (async () => {
+      await dispatch(fetchUsersData())
+      dispatch(sortId())
+    })()
+
   }, []);
 
   return (
     <div className="container">
       <Routes>
-        <Route path="/" element={users.pendingGet ? <Loader /> : <Table />} />
-        <Route path="/user-detail/:id" element={<UserDetail/>} />
+        <Route path="/" element={users.pendingGet ? <Loader /> : <UsersTable />} />
+        <Route path="/user-detail/:id" element={<UserDetail />} />
       </Routes>
     </div>
   );

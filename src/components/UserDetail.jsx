@@ -8,8 +8,8 @@ export default function UserDetail() {
   const { user } = useSelector((state) => state.users)
   const navigate = useNavigate()
 
-  function saveChanges() {
-    dispatch(submitChanges())
+  async function saveChanges() {
+    await dispatch(submitChanges())
     navigate("/")
     console.log(user);
   }
@@ -84,7 +84,7 @@ export default function UserDetail() {
             value={user.about}
             id=""
             cols="55"
-            rows="10"
+            rows="7"
             onChange={(e) => dispatch(setUser(e.target))}
           ></textarea>
         </div>

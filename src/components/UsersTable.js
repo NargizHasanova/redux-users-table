@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
 import { TbArrowNarrowUp, TbArrowNarrowDown } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../Loader/Loader';
 import MyVerticallyCenteredModal from "./UserModal";
-import Button from 'react-bootstrap/Button';
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 // import { useGetUsersQuery } from '../redux/api';
-import { changeIdFilterDir, addItemFullInfo, sortId, showFullInfo, hideFullInfo, prepareEdittingList } from '../redux/userSlice';
+import { changeIdFilterDir, addItemFullInfo, sortId, showFullInfo, hideFullInfo, prepareEdittingList, deleteUser } from '../redux/userSlice';
 import { BsFillPencilFill, BsTrashFill } from "react-icons/bs";
 
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Space, message } from 'antd';
+
+const { confirm } = Modal
 
 
-export default function Table() {
+
+export default function UsersTable() {
     // const { data = [], isLoading } = useGetUsersQuery()
     const dispatch = useDispatch()
     const users = useSelector(state => state.users)
-    console.log(users.idFilterDir);
     // if(isLoading) return <Loader/> 
     const navigate = useNavigate()
 
@@ -32,6 +33,24 @@ export default function Table() {
         navigate(`/user-detail/${item.id}`)
         dispatch(addItemFullInfo(item))
         dispatch(prepareEdittingList(item))
+    }
+
+    const confirmDelete = (userName) => {
+        confirm({
+            title: `Do you want to delete ${userName}?`,
+            icon: <ExclamationCircleOutlined className="nese" />,
+            // content: 'When clicked the OK button, this dialog will be closed after 1 second',
+            okText: "Yes",
+
+            onOk() {
+                dispatch(deleteUser(userName))
+                setTimeout(() => {
+                    message.success("User successfully deleted")
+                }, 500);
+                
+            },
+            onCancel() { },
+        })
     }
 
     return (
@@ -70,7 +89,11 @@ export default function Table() {
                             <td className="icons-cell">
                                 <BsFillPencilFill
                                     onClick={() => onEditHandler(item)} className='pencil-icon' />
-                                <BsTrashFill className='trash-icon' />
+                                <Space wrap>
+                                    <BsTrashFill
+                                        className='trash-icon'
+                                        onClick={() => confirmDelete(item.firstName)} />
+                                </Space>
                             </td>
                         </tr>
                     })}

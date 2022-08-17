@@ -40,6 +40,7 @@ export const userSlice = createSlice({
         sortId: (state) => {
             const orderedData = _.orderBy(state.data, 'id', state.idFilterDir);
             state.data = orderedData
+            console.log('sort eledi');
         },
         changeIdFilterDir: (state) => {
             state.idFilterDir = state.idFilterDir === 'asc' ? 'desc' : 'asc'
@@ -64,44 +65,56 @@ export const userSlice = createSlice({
             state.user.address.city = payload.address.city
             state.user.address.zip = payload.address.zip
         },
-        // prepareEdittingListAddress: (state, { payload }) => {
-        //     state.user.address
-        // },
         setUser: (state, { payload }) => {
-            // payload = e.target.value
+            // payload = e.target
             state.user[payload.name] = payload.value
         },
         setUserAdress: (state, { payload }) => {
             state.user.address[payload.name] = payload.value
         },
         submitChanges: (state, { payload }) => {
+            state.data = state.data.map(item => {
+                //id-lerde tekrarlanma ola bilir deye namelerle select edirem
+                if (item.firstName === state.singleItemFullInfo.firstName) {
+                    item.firstName = state.user.firstName
+                    item.lastName = state.user.lastName
+                    item.email = state.user.email
+                    item.phone = state.user.phone
+                    item.about = state.user.about
+                    item.address.streetAddress = state.user.address.street
+                    item.address.city = state.user.address.city
+                    item.address.zip = state.user.address.zip
+                }
+                return item
+            })
             console.log(state.user);
+        },
+        deleteUser: (state, { payload }) => {
+            // payload = userName
+            state.data = state.data.filter(item => item.firstName !== payload)
         }
 
     },
     extraReducers: {
         [fetchUsersData.pending]: (state) => {
-            console.log('data pending');
+            // console.log('data pending');
             state.pendingGet = true
             state.errorGet = false
         },
         [fetchUsersData.fulfilled]: (state, { payload }) => {
-            console.log('data fulfilled');
+            // console.log('data fulfilled');
             state.pendingGet = false
-            console.log(payload);
             state.data = payload
 
         },
         [fetchUsersData.rejected]: (state, action) => {
             console.log('request rejected');
             state.errorGet = action.error.message
-            console.log(action);
-
             state.pendingGet = false
         },
     }
 })
 
 
-export const { sortId, submitChanges, setUser, setUserAdress, addItemFullInfo, prepareEdittingList, hideFullInfo, showFullInfo, changeIdFilterDir } = userSlice.actions
+export const { sortId, deleteUser, submitChanges, setUser, setUserAdress, addItemFullInfo, prepareEdittingList, hideFullInfo, showFullInfo, changeIdFilterDir } = userSlice.actions
 export default userSlice.reducer
