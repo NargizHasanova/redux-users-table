@@ -3,10 +3,21 @@
   padding: 0;
   box-sizing: border-box;
 }
-.ant-message div div{
+
+.ant-message div div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.phone-input input:focus {
+  box-shadow: none;
+  border-color: #CACACA;
+}
+
+textarea {
+  padding: 5px;
+  outline: none;
 }
 
 .container {
@@ -81,16 +92,33 @@ tbody tr:hover {
 .user-edit-box {
   padding: 30px 20px;
 }
-.address-details-edit div{
+
+.address-details-edit div {
   margin-bottom: 10px;
 }
-.info-item-edit{
+
+.info-item-edit {
   margin-bottom: 30px;
 }
-.user-detail-submit-button{
+
+.info-item-edit input {
+  padding-left: 5px;
+}
+
+.user-detail-submit-button {
   margin-left: 15px;
   width: 130px;
 }
+
 .goback-btn {
   width: 130px;
+}
+
+.table-title {
+  text-align: center;
+  margin: 15px 0px 10px 0px;
+}
+
+.pagination-tab{
+  padding-bottom: 10px;
 }

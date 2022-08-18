@@ -13,7 +13,7 @@ function App() {
   // if (isLoading) return <Loader />
   const dispatch = useDispatch()
   const users = useSelector(state => state.users)
-  console.log(users.idFilterDir);
+  
   useEffect(() => {
     (async () => {
       await dispatch(fetchUsersData())
@@ -23,12 +23,12 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
+    
       <Routes>
         <Route path="/" element={users.pendingGet ? <Loader /> : <UsersTable />} />
         <Route path="/user-detail/:id" element={<UserDetail />} />
       </Routes>
-    </div>
+   
   );
 }
 

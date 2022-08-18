@@ -5,7 +5,7 @@ import _ from "lodash";
 
 export const fetchUsersData = createAsyncThunk("users/fetchUsers",
     async () => {
-        const { data } = await axios.get("http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}")
+        const { data } = await axios.get("http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}")
         console.log(data);
         return data
     }
@@ -35,12 +35,13 @@ export const userSlice = createSlice({
                 zip: '',
             },
         },
+        currentPage: 1,
+        postsPerPage: 10
     },
     reducers: {
         sortId: (state) => {
             const orderedData = _.orderBy(state.data, 'id', state.idFilterDir);
             state.data = orderedData
-            console.log('sort eledi');
         },
         changeIdFilterDir: (state) => {
             state.idFilterDir = state.idFilterDir === 'asc' ? 'desc' : 'asc'
@@ -55,7 +56,6 @@ export const userSlice = createSlice({
             state.singleItemFullInfo = payload
         },
         prepareEdittingList: (state, { payload }) => {
-            console.log(payload);
             state.user.firstName = payload.firstName
             state.user.lastName = payload.lastName
             state.user.about = payload.description
@@ -68,6 +68,17 @@ export const userSlice = createSlice({
         setUser: (state, { payload }) => {
             // payload = e.target
             state.user[payload.name] = payload.value
+        },
+        setUserPhone: (state, { payload }) => {
+            let format = "(xxx) xxx-xxxx";
+            const numArr = payload.split("")
+            for (var i = 0; i < numArr.length; i++) {
+                format = format.replace("x", numArr[i]);
+            }
+
+            console.log(format);
+
+            state.user.phone = format
         },
         setUserAdress: (state, { payload }) => {
             state.user.address[payload.name] = payload.value
@@ -87,12 +98,15 @@ export const userSlice = createSlice({
                 }
                 return item
             })
-            console.log(state.user);
         },
         deleteUser: (state, { payload }) => {
             // payload = userName
             state.data = state.data.filter(item => item.firstName !== payload)
-        }
+        },
+        paginate: (state, { payload }) => {
+            state.currentPage = payload
+        },
+
 
     },
     extraReducers: {
@@ -116,5 +130,5 @@ export const userSlice = createSlice({
 })
 
 
-export const { sortId, deleteUser, submitChanges, setUser, setUserAdress, addItemFullInfo, prepareEdittingList, hideFullInfo, showFullInfo, changeIdFilterDir } = userSlice.actions
+export const { sortId, paginate, deleteUser, setUserPhone, submitChanges, setUser, setUserAdress, addItemFullInfo, prepareEdittingList, hideFullInfo, showFullInfo, changeIdFilterDir } = userSlice.actions
 export default userSlice.reducer

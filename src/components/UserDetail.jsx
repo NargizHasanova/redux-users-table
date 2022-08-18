@@ -1,7 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Button from 'react-bootstrap/Button'
-import { setUser, setUserAdress, submitChanges } from '../redux/userSlice'
+import {
+  setUser,
+  setUserAdress,
+  setUserPhone,
+  submitChanges,
+} from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function UserDetail() {
   const dispatch = useDispatch()
@@ -10,12 +17,12 @@ export default function UserDetail() {
 
   async function saveChanges() {
     await dispatch(submitChanges())
-    navigate("/")
-    console.log(user);
+    navigate('/')
+    console.log(user)
   }
-  
+
   return (
-    <div className="user-edit-box">
+    <div className="user-edit-box container">
       <div className="modal-body-mine">
         <div className="info-item info-item-edit">
           <h5>First Name</h5>
@@ -90,11 +97,12 @@ export default function UserDetail() {
         </div>
         <div className="info-item info-item-edit">
           <h5>Phone</h5>
-          <input
-            type="text"
+          <PhoneInput
+            // country={'az'}
             value={user.phone}
-            name="phone"
-            onChange={(e) => dispatch(setUser(e.target))}
+            className="phone-input"
+            // name propertini gormur deye phone ucun ayrica setUserPhone yazdim
+            onChange={(phoneNum) => dispatch(setUserPhone(phoneNum))}
           />
         </div>
       </div>
